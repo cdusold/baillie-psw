@@ -19,9 +19,16 @@ order_6_primes = [1000003, 1000033, 1000037, 1000039, 1000081,
 order_7_primes = [10000019, 10000079, 10000103, 10000121, 10000139,
                     10000141, 10000169, 10000189, 10000223, 10000229]
 
+order_8_primes = [100000007, 100000037, 100000039, 100000049, 100000073,
+                    100000081, 100000123, 100000127, 100000193, 100000213]
+
+order_9_primes = [1000000007, 1000000009, 1000000021, 1000000033, 1000000087,
+                    1000000093, 1000000097, 1000000103, 1000000123, 1000000181]
+
 
 primes = {2: order_2_primes, 3: order_3_primes, 4: order_4_primes,
-            5: order_5_primes, 6: order_6_primes, 7: order_7_primes}
+            5: order_5_primes, 6: order_6_primes, 7: order_7_primes,
+            8: order_8_primes, 0: order_9_primes}
 
 def time_execution_primes(order):
     prime_list = primes[order]
@@ -51,6 +58,18 @@ def long_test():
         results[order] = time_execution_primes(order)
     return results
 
+def super_long_test():
+    results = {}
+    for order in [2, 3, 4, 5, 6, 7, 8]:
+        results[order] = time_execution_primes(order)
+    return results
+
+def stupidly_long_test():
+    results = {}
+    for order in [2, 3, 4, 5, 6, 7, 8, 9]:
+        results[order] = time_execution_primes(order)
+    return results
+
 def process_results(results):
     for order, result in results.iteritems():
         print "Order {0}, average time: {1:f}s, number of iterations: {2}".format(order, *result)
@@ -60,6 +79,8 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument('--short', help='Test primes up to order 5', action='store_true')
 group.add_argument('--medium', help='Test primes up to order 6', action='store_true')
 group.add_argument('--long', help='Test primes up to order 7', action='store_true')
+group.add_argument('--superlong', help='Test primes up to order 8', action='store_true')
+group.add_argument('--stupidlylong', help='Test primes up to order 9', action='store_true')
 args = parser.parse_args()
 
 if args.short:
@@ -68,5 +89,9 @@ elif args.medium:
     results = medium_test()
 elif args.long:
     results = long_test()
+elif args.superlong:
+    results = super_long_test()
+elif args.stupidlylong:
+    results = stupidly_long_test()
 
 process_results(results)
