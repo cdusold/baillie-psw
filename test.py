@@ -28,7 +28,7 @@ order_9_primes = [1000000007, 1000000009, 1000000021, 1000000033, 1000000087,
 
 primes = {2: order_2_primes, 3: order_3_primes, 4: order_4_primes,
             5: order_5_primes, 6: order_6_primes, 7: order_7_primes,
-            8: order_8_primes, 0: order_9_primes}
+            8: order_8_primes, 9: order_9_primes}
 
 def time_execution_primes(order):
     prime_list = primes[order]
@@ -40,39 +40,22 @@ def time_execution_primes(order):
         total_time += (time.time() - start_time)
     return total_time/iterations, iterations
 
-def short_test():
-    results = {}
-    for order in [2, 3, 4, 5]:
-        results[order] = time_execution_primes(order)
-    return results
+def test(length):
+    if length == 'short':
+        order_range = range(2, 6)
+    elif length == 'medium':
+        order_range = range(2, 7)
+    elif length == 'long':
+        order_range = range(2, 8)
+    elif length == 'superlong':
+        order_range = range(2, 9)
+    elif length == 'stupidlylong':
+        order_range = range(2, 10)
 
-def medium_test():
-    results = {}
-    for order in [2, 3, 4, 5, 6]:
-        results[order] = time_execution_primes(order)
-    return results
-
-def long_test():
-    results = {}
-    for order in [2, 3, 4, 5, 6, 7]:
-        results[order] = time_execution_primes(order)
-    return results
-
-def super_long_test():
-    results = {}
-    for order in [2, 3, 4, 5, 6, 7, 8]:
-        results[order] = time_execution_primes(order)
-    return results
-
-def stupidly_long_test():
-    results = {}
-    for order in [2, 3, 4, 5, 6, 7, 8, 9]:
-        results[order] = time_execution_primes(order)
-    return results
-
-def process_results(results):
-    for order, result in results.iteritems():
+    for order in order_range:
+        result = time_execution_primes(order)
         print "Order {0}, average time: {1:f}s, number of iterations: {2}".format(order, *result)
+
 
 parser = argparse.ArgumentParser(description='Test the Baillie-PSW implementation')
 group = parser.add_mutually_exclusive_group()
@@ -84,14 +67,12 @@ group.add_argument('--stupidlylong', help='Test primes up to order 9', action='s
 args = parser.parse_args()
 
 if args.short:
-    results = short_test()
+    test('short')
 elif args.medium:
-    results = medium_test()
+    test('medium')
 elif args.long:
-    results = long_test()
+    test('long')
 elif args.superlong:
-    results = super_long_test()
+    test('superlong')
 elif args.stupidlylong:
-    results = stupidly_long_test()
-
-process_results(results)
+    test('stupidlylong')

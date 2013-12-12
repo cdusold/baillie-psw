@@ -31,11 +31,31 @@ def perform_operations(U, V, P, Q, D, n, op_list):
                 U, V = (P*U + V + n)/2, (D*U + P*V + n)/2
     return U, V
 
+def U_V_subscript(k, n, U, V, P, Q, D):
+    digits = map(int, str(bin(k))[2:])
+    subscript = 1
+    for digit in digits[1:]:
+        U, V = (U*V) % n, (V**2 - 2*(Q**subscript)) % n
+        subscript *= 2
+        if digit == 1:
+            if (P*U + V) % 2 == 0:
+                if (D*U + P*V) % 2 == 0:
+                    U, V = (P*U + V)/2, (D*U + P*V)/2
+                else:
+                    U, V = (P*U + V)/2, (D*U + P*V + n)/2
+            elif (D*U + P*V) % 2 == 0:
+                U, V = (P*U + V + n)/2, (D*U + P*V)/2
+            else:
+                U, V = (P*U + V + n)/2, (D*U + P*V + n)/2
+            subscript += 1
+            U, V = U % n, V % n
+    return U, V
+
 def lucas_pp(n, D, P, Q):                                                                                                                                                                                                                         
     """Perform the Lucas probable prime test"""
-    U, V = perform_operations(1, P, P, Q, D, n, calculate_add_or_multiply(n+1))
+    U, V = U_V_subscript(n+1, n, 1, P, P, Q, D)
 
-    if U % n != 0:
+    if U != 0:
         return False # Failed the weaker probable prime test
 
     d = n + 1
@@ -44,14 +64,20 @@ def lucas_pp(n, D, P, Q):
         d = d/2
         s += 1
 
-    U, V = perform_operations(1, P, P, Q, D, n, calculate_add_or_multiply(d))
+    # U, V = perform_operations(1, P, P, Q, D, n, calculate_add_or_multiply(d))
+    U, V = U_V_subscript(n+1, n, 1, P, P, Q, D)
 
-    if U % n == 0:
+    if U == 0:
         return True # A strong probable prime
 
+    # for r in xrange(s):
+    #     U, V = perform_operations(1, P, P, Q, D, n, calculate_add_or_multiply(d*(2**r)))
+    #     if V % n == 0:
+    #         return True
+
     for r in xrange(s):
-        U, V = perform_operations(1, P, P, Q, D, n, calculate_add_or_multiply(d*(2**r)))
-        if V % n == 0:
+        U, V = (U*V) % n, (V**2 - 2*(Q**(d*(2**r)))) % n
+        if V == 0:
             return True
 
     return False
