@@ -35,7 +35,8 @@ def U_V_subscript(k, n, U, V, P, Q, D):
     digits = map(int, str(bin(k))[2:])
     subscript = 1
     for digit in digits[1:]:
-        U, V = (U*V) % n, (V**2 - 2*(Q**subscript)) % n
+        # U, V = (U*V) % n, (V**2 - 2*(Q**subscript)) % n
+        U, V = U*V % n, (pow(V, 2, n) - 2*pow(Q, subscript, n)) % n
         subscript *= 2
         if digit == 1:
             if (P*U + V) % 2 == 0:
@@ -76,7 +77,8 @@ def lucas_pp(n, D, P, Q):
     #         return True
 
     for r in xrange(s):
-        U, V = (U*V) % n, (V**2 - 2*(Q**(d*(2**r)))) % n
+        # U, V = (U*V) % n, (V**2 - 2*(Q**(d*(2**r)))) % n
+        U, V = (U*V) % n, (pow(V, 2, n) - 2*pow(Q, d*(2**r), n)) % n
         if V == 0:
             return True
 
