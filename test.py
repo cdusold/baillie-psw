@@ -40,7 +40,7 @@ def time_execution_primes(order):
         total_time += (time.time() - start_time)
     return total_time/iterations, iterations
 
-def test(length):
+def known_prime_test(length):
     if length == 'short':
         order_range = range(2, 6)
     elif length == 'medium':
@@ -56,6 +56,9 @@ def test(length):
         result = time_execution_primes(order)
         print "Order {0}, average time: {1:f}s, number of iterations: {2}".format(order, *result)
 
+def fermat_test(n=12):
+    for x in xrange(n):
+        print "2^(2^{0}) +1 = 2^{1} + 1 is ".format(x, 2**x), 'prime' if baillie_psw(2**(2**x) + 1) else 'composite'
 
 parser = argparse.ArgumentParser(description='Test the Baillie-PSW implementation')
 group = parser.add_mutually_exclusive_group()
@@ -64,15 +67,18 @@ group.add_argument('--medium', help='Test primes up to order 6', action='store_t
 group.add_argument('--long', help='Test primes up to order 7', action='store_true')
 group.add_argument('--superlong', help='Test primes up to order 8', action='store_true')
 group.add_argument('--stupidlylong', help='Test primes up to order 9', action='store_true')
+group.add_argument('--fermat', help='Check the primality of the first n Fermat numbers', type=int, default=0)
 args = parser.parse_args()
 
 if args.short:
-    test('short')
+    known_prime_test('short')
 elif args.medium:
-    test('medium')
+    known_prime_test('medium')
 elif args.long:
-    test('long')
+    known_prime_test('long')
 elif args.superlong:
-    test('superlong')
+    known_prime_test('superlong')
 elif args.stupidlylong:
-    test('stupidlylong')
+    known_prime_test('stupidlylong')
+elif args.fermat:
+    fermat_test(args.fermat)

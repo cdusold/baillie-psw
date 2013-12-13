@@ -2,23 +2,17 @@ def miller_rabin_base_2(n):
     """Perform the Miller Rabin primality test base 2"""
     d = n-1
     s = 0
-    while d % 2 == 0: # Factorise n-1 as (2^s) * d
-        d = d / 2
+    while not d & 1: # Check for divisibility by 2
+        d = d >> 1 # Divide by 2 using a binary right shift
         s += 1
 
-    a = 2 # Because this is the base 2 test
-    # x = (a**d) % n
-    x = pow(a, d, n)
+    x = pow(2, d, n)
     if x == 1 or x == n-1:
         return True
     for i in xrange(s-1):
-        # x = (x**2) % n
         x = pow(x, 2, n)
         if x == 1:
             return False
         elif x == n - 1:
             return True
     return False
-
-def miller_rabin():
-    pass
