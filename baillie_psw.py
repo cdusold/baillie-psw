@@ -15,7 +15,9 @@ def baillie_psw(candidate):
 
     # Check divisibility by a short list of primes less than 50
     for known_prime in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 33, 37, 41, 43, 47]:
-        if candidate % known_prime == 0 and candidate != known_prime:
+        if candidate == known_prime:
+            return True
+        elif candidate % known_prime == 0:
             return False
 
     # Now perform the Miller-Rabin primality test base 2
