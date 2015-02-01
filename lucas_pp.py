@@ -1,5 +1,6 @@
 def U_V_subscript(k, n, U, V, P, Q, D):
-    digits = map(int, str(bin(k))[2:])
+    k, n, U, V, P, Q, D = map(int, (k, n, U, V, P, Q, D))
+    digits = list(map(int, str(bin(k))[2:]))
     subscript = 1
     for digit in digits[1:]:
         U, V = U*V % n, (pow(V, 2, n) - 2*pow(Q, subscript, n)) % n

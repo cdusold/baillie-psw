@@ -9,7 +9,7 @@ def miller_rabin_base_2(n):
     x = pow(2, d, n)
     if x == 1 or x == n-1:
         return True
-    for i in xrange(s-1):
+    for i in range(s-1):
         x = pow(x, 2, n)
         if x == 1:
             return False
