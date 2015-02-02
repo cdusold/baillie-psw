@@ -40,3 +40,7 @@ def testMillerRabinFailsForNonPrimes():
 def testMillerRabinFailsForStrongPseudoprimes():
     for x in [2047, 3277, 4033, 4681, 8321, 15841, 29341, 42799, 49141]:
         assert miller_rabin_base_2(x)
+
+def testMillerRabinOnEvens():
+    for x in range(30, 10000000, 2):
+        assert not miller_rabin_base_2(x)
