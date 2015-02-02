@@ -4,21 +4,21 @@ from nose import *
 from jacobi_symbol import jacobi_symbol
 
 def testJacobiSymbolWithAEqualToZero():
-    vals = list(map(lambda x: jacobi_symbol(0, x), [1, 3, 5, 7, 9, 11]))
-    assert vals == [1, 0, 0, 0, 0, 0]
+    for x, expected in zip(range(1, 12, 2), [1, 0, 0, 0, 0, 0]):
+        assert jacobi_symbol(0, x) == expected
 
 def testJacobiSymbolWithAEqualToOne():
-    vals = list(map(lambda x: jacobi_symbol(1, x), [3, 5, 7, 9, 11]))
-    assert vals == [1, 1, 1, 1, 1]
+    for x, expected in zip(range(3, 12, 2), [1, 1, 1, 1, 1]):
+        assert jacobi_symbol(1, x) == expected
 
 def testJacobiSymbolWithAEqualToTwo():
-    vals = list(map(lambda x: jacobi_symbol(2, x), [3, 5, 7, 9, 11]))
-    assert vals == [-1, -1, 1, 1, -1]
+    for x, expected in zip(range(3, 12, 2), [-1, -1, 1, 1, -1]):
+        assert jacobi_symbol(2, x) == expected
 
 def testJacobiSymbolWithAGreaterThanM():
-    vals = list(map(lambda x: jacobi_symbol(12, x), [1, 3, 5, 7, 9, 11]))
-    assert vals == [1, 0, -1, -1, 0, 1]
+    for x, expected in zip(range(1, 12, 2), [1, 0, -1, -1, 0, 1]):
+        assert jacobi_symbol(12, x) == expected
 
 def testJacobiSymbolWithANegative():
-    vals = list(map(lambda x: jacobi_symbol(x, 3), [-1, -2, -3, -4, -5]))
-    assert vals == [-1, 1, 0, -1, 1]
+    for x, expected in zip(range(-1, -5, -1), [-1, 1, 0, -1, 1]):
+        assert jacobi_symbol(x, 3) == expected
