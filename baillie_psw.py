@@ -24,6 +24,11 @@ def baillie_psw(candidate):
     if not miller_rabin_base_2(candidate):
         return False
 
+    # These two composite numbers are Miller-Rabin pseudoprimes and cause
+    # an infinite loop in the below implementation of the Lucas Test
+    if candidate in set([1194649, 12327121]):
+        return False
+
     # Finally perform the Lucas primality test
     D = D_chooser(candidate)
     if not lucas_pp(candidate, D, 1, (1-D)/4):
