@@ -1,6 +1,7 @@
 from miller_rabin import miller_rabin_base_2
 from jacobi_symbol import jacobi_symbol
 from lucas_pp import lucas_pp
+from math import sqrt
 
 def D_chooser(candidate):
     """Choose a D value suitable for the Baillie-PSW test"""
@@ -23,10 +24,12 @@ def baillie_psw(candidate):
     # Now perform the Miller-Rabin primality test base 2
     if not miller_rabin_base_2(candidate):
         return False
-
-    # These two composite numbers are Miller-Rabin pseudoprimes and cause
-    # an infinite loop in the below implementation of the Lucas Test
-    if candidate in set([1194649, 12327121]):
+    
+    # Check that the number isn't a square number, as this will throw out 
+    # calculating the correct value of D later on (and means we have a
+    # composite number)
+    # the slight ugliness is from having to deal with floating point numbers
+    if int(sqrt(candidate) + 0.5) ** 2 == candidate:
         return False
 
     # Finally perform the Lucas primality test
