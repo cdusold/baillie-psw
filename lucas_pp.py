@@ -38,10 +38,10 @@ def lucas_pp(n, D, P, Q):
 
     U, V = U_V_subscript(n + 1, n, 1, P, P, Q, D)
 
-    if U == 0:
+    if (U == 0) or (V == 0):
         return True
 
-    for r in range(s):
+    for r in range(s - 1):
         U, V = (U * V) % n, (pow(V, 2, n) - 2 * pow(Q, d * (2**r), n)) % n
         if V == 0:
             return True
