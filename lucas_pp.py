@@ -1,11 +1,12 @@
 def U_V_subscript(k, n, U, V, P, Q, D):
-    k, n, U, V, P, Q, D = map(int, (k, n, U, V, P, Q, D))
-    digits = list(map(int, str(bin(k))[2:]))
+    digits = bin(k)[3:]
     subscript = 1
-    for digit in digits[1:]:
-        U, V = U * V % n, (pow(V, 2, n) - 2 * pow(Q, subscript, n)) % n
+
+    for digit in digits:
+        U, V = (U * V) % n, (pow(V, 2, n) - 2 * pow(Q, subscript, n)) % n
         subscript *= 2
-        if digit == 1:
+
+        if digit == '1':
             if not (P * U + V) & 1:
                 if not (D * U + P * V) & 1:
                     U, V = (P * U + V) >> 1, (D * U + P * V) >> 1
@@ -15,8 +16,10 @@ def U_V_subscript(k, n, U, V, P, Q, D):
                 U, V = (P * U + V + n) >> 1, (D * U + P * V) >> 1
             else:
                 U, V = (P * U + V + n) >> 1, (D * U + P * V + n) >> 1
+
             subscript += 1
             U, V = U % n, V % n
+
     return U, V
 
 

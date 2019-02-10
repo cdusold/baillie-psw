@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
-import argparse
 import time
+from argparse import ArgumentParser
 
 from baillie_psw import baillie_psw
 
@@ -85,8 +85,7 @@ def fermat_test(n=12):
               'prime' if baillie_psw(2**(2**x) + 1) else 'composite')
 
 
-parser = argparse.ArgumentParser(
-    description='Test the Baillie-PSW implementation')
+parser = ArgumentParser(description='Test the Baillie-PSW implementation')
 group = parser.add_mutually_exclusive_group()
 group.add_argument(
     '--short', help='Test primes up to order 5', action='store_true')
